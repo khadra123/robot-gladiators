@@ -4,15 +4,13 @@ var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
 
-console.log(playerAttack, playerHealth, playerName, playerMoney);
-
 //Enemy information 
-var enemyName = "Roberto";
+var enemyNames = ["Roberto", "Amy", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
 // This is the fight function that starts the game.
-var fight = function(){
+var fight = function(enemyName){
     window.alert("Welcome to the Robot Gladiators");
 
     //Prompts the user to choose a condition.
@@ -65,8 +63,12 @@ var fight = function(){
     }
 };
 
-//runs the fight function to start the game
-fight();
+//runs the fight function to start the game by inputting it into a loop allowing the player to face multiple enemies
+for (var i=0; i < enemyNames.length; i++){
+    fight(enemyNames[i]);
+}
+
+
 
 
 
