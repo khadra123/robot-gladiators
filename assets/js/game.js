@@ -10,61 +10,67 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 // This is the fight function that starts the game.
-var fight = function(enemyName){
-    window.alert("Welcome to the Robot Gladiators");
+var fight = function(enemyName){ 
 
-    //Prompts the user to choose a condition.
-    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose. ")
-    console.log(promptFight);
+    while (enemyHealth > 0){
+        //Prompts the user to choose a condition.
+        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose. ")
+        console.log(promptFight);
 
-    //if player chooses to fight
-    if (promptFight === "fight" || promptFight==="FIGHT" || promptFight==="Fight") {
-        //reduces enemyhealth from playerattack
-        enemyHealth = enemyHealth - playerAttack;
-        console.log( playerName + " attacked " + enemyName + " now has " + enemyHealth + " health remaining.");
+        //if player chooses to fight
+        if (promptFight === "fight" || promptFight==="FIGHT" || promptFight==="Fight") {
+            //reduces enemyhealth from playerattack
+            enemyHealth = enemyHealth - playerAttack;
+            console.log( playerName + " attacked " + enemyName + " now has " + enemyHealth + " health remaining.");
+            
+            //Checks enemyhealth 
+            if (enemyHealth <= 0){
+                window.alert(enemyName + " has died!");
+            }
+            else {
+                window.alert(enemyName + " still has "+ enemyHealth + " health left.");
+            }
+            
+            //removes playerhealth from enemyattack
+            playerHealth = playerHealth -enemyAttack;
+            console.log(enemyName + " attacked " + playerName + " now has " + playerHealth + " health remaining.");
         
-        //Checks enemyhealth 
-        if (enemyHealth <= 0){
-            window.alert(enemyName + " has died!");
-        }
-        else {
-            window.alert(enemyName + " still has "+ enemyHealth + " health left.");
+            //checks player's health
+            if (playerHealth <= 0){
+                window.alert(playerName + " has died!");
+            }
+            else {
+                window.alert(playerName + " still has "+ playerHealth + " health left.");
+            }
         }
         
-        //removes playerhealth from enemyattack
-        playerHealth = playerHealth -enemyAttack;
-        console.log(enemyName + " attacked " + playerName + " now has " + playerHealth + " health remaining.");
-    
-        //checks player's health
-        if (playerHealth <= 0){
-            window.alert(playerName + " has died!");
+        //if the player chooses to skip
+        else if (promptFight === "Skip" || promptFight==="SKIP" || promptFight==="skip"){
+            var confirmSkip = window.confirm ("Are you sure you'd like to quit?");
+        
+            if (confirmSkip){
+                window.alert(playerName + " has decided to skip this fight. Goodbye!");
+                playerMoney = playerMoney - 2;
+            }
+            else{
+                fight();
+            }
         }
-        else {
-            window.alert(playerName + " still has "+ playerHealth + " health left.");
-        }
-    }
-    
-    //if the player chooses to skip
-    else if (promptFight === "Skip" || promptFight==="SKIP" || promptFight==="skip"){
-        var confirmSkip = window.confirm ("Are you sure you'd like to quit?");
-    
-        if (confirmSkip){
-            window.alert(playerName + " has decided to skip this fight. Goodbye!");
-            playerMoney = playerMoney - 2;
-        }
+        
+        //if player inputs incorrect value
         else{
-            fight();
+            window.alert("You need to choose a valid option. Try again! ")
         }
     }
+
     
-    //if player inputs incorrect value
-    else{
-        window.alert("You need to choose a valid option. Try again! ")
-    }
 };
 
 //runs the fight function to start the game by inputting it into a loop allowing the player to face multiple enemies
 for (var i=0; i < enemyNames.length; i++){
+    debugger;
+    //Resets enemyhealth so that the next bot fights with full health
+    enemyHealth=50;
     fight(enemyNames[i]);
 }
 
