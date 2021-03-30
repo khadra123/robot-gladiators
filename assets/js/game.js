@@ -23,7 +23,7 @@ var fight = function(enemyName){
                 
             if (confirmSkip){
                 window.alert(playerName + " has decided to skip this fight. Goodbye!");
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney", playerMoney);
                 break;
             }
@@ -31,8 +31,13 @@ var fight = function(enemyName){
 
         //if player chooses to fight
         if (promptFight === "fight" || promptFight==="FIGHT" || promptFight==="Fight") {
-            //reduces enemyhealth from playerattack
-            enemyHealth = enemyHealth - playerAttack;
+            //Updates health based on attack damage
+            var damage = randomNumber(playerAttack - 3, playerAttack);
+            console.log(damage);
+            enemyHealth = Math.max(0, enemyHealth - damage);
+            console.log(enemyHealth);
+            console.log(playerAttack);
+
             console.log( playerName + " attacked " + enemyName + " now has " + enemyHealth + " health remaining.");
             
             //Checks enemyhealth 
@@ -45,8 +50,11 @@ var fight = function(enemyName){
                 window.alert(enemyName + " still has "+ enemyHealth + " health left.");
             }
             
-            //removes playerhealth from enemyattack
-            playerHealth = playerHealth - enemyAttack;
+            //removes playerhealth from enemyattack and returns the largest number
+            var damage = randomNumber(enemyAttack - 3, enemyAttack);
+            playerHealth = Math.max(0, playerHealth - damage);
+            //console.log(playerHealth);
+
             console.log(enemyName + " attacked " + playerName + " now has " + playerHealth + " health remaining.");
         
             //checks player's health
@@ -83,8 +91,8 @@ var startGame = function() {
 
             var pickedEnemyName = enemyNames[i];
 
-            //Resets enemyhealth so that the next bot fights with full health
-            enemyHealth=50;
+            //Resets enemyhealth so that the next bot fights to any number between 0-59
+            enemyHealth=randomNumber(40, 60);
 
             //pass pickenemyname variable's value into the fight function, where it will assume the value of the next enemy name
             fight(pickedEnemyName);
@@ -179,6 +187,12 @@ var shop = function(){
             break;
 
     }
+}
+
+var randomNumber =function(min, max){
+    var value = Math.floor(Math.random() *(max - min + 1));
+
+    return value;
 }
 
 //this starts the startgame function without it the game won't start
